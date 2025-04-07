@@ -173,3 +173,41 @@ WHERE EXISTS (
     FROM film f2
     WHERE f2.rating = film.rating
 );
+
+-- Q33
+WITH TotalGasto AS (
+    SELECT
+        customer_id,
+        SUM(amount) AS total_gasto
+    FROM
+        payment
+    GROUP BY
+        customer_id
+)
+DELETE FROM payment
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM TotalGasto
+    WHERE total_gasto < 50.00
+);
+
+-- Q34
+SELECT AVG(length)
+FROM film;
+
+SELECT title
+FROM film
+WHERE length > '115.2720';
+
+-- Q35
+WITH AtoresMaisFilmes AS (
+SELECT film_actor.actor_id, first_name, last_name, COUNT(*)
+FROM film_actor
+JOIN actor ON actor.actor_id = film_actor.actor_id
+GROUP BY actor.actor_id
+ORDER BY COUNT(*) DESC
+LIMIT 5
+)
+UPDATE actor
+SET last_name = concat('STAR-',last_name)
+WHERE actor_id IN (SELECT actor_id FROM AtoresMaisFilmes);
