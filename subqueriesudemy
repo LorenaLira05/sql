@@ -85,3 +85,23 @@ WHERE
             products AS p2
         WHERE
             p1.department = p2.department);
+
+--Using only subqueries, print the max price, min price, and average price of all phones. Rename each column to max_price, min_price, avg_price.
+
+SELECT 
+	(SELECT MAX(price) 
+		FROM phones) 
+			AS max_price,
+	(SELECT min(price) 
+		FROM phones) 
+			AS min_price,
+	(SELECT AVG(price) 
+		FROM phones) 
+			AS avg_price;
+
+-- Write a query that will print the number of unique phone manufacturers.
+
+SELECT 
+	COUNT(DISTINCT MANUFACTURER)
+FROM 
+	phones;
